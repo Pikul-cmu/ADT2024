@@ -4,7 +4,7 @@ Demo for ADT and problem-solving in JAVA
 Course Contents: 		
 1. Principle of Abstract data types
 2. Array and programmer-defined ADT
-3. Well-Known data structures
+3. Well-known data structures
 4. Algorithm concept and Make file
 5. Stacks and queues	
 6. Linked lists
