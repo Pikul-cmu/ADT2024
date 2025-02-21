@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_VERTICES 50
+
+typedef struct node {
+    int vertex;
+    struct node *link;
+} Node;
+
+Node* graph[MAX_VERTICES];  
+int visited[MAX_VERTICES];  
+int discovery[MAX_VERTICES], finish[MAX_VERTICES], timeCounter = 0;
+
+void DFS(int v) {
+    visited[v] = 1;
+    discovery[v] = ++timeCounter;  // Set discovery time
+    printf("Node %d discovered at time %d\n", v, discovery[v]);
+
+    Node* temp = graph[v];
+    while (temp) {
+        if (!visited[temp->vertex])
+            DFS(temp->vertex);
+        temp = temp->link;
+    }
+
+    finish[v] = ++timeCounter;  // Set finishing time
+    printf("Node %d finished at time %d\n", v, finish[v]);
+}
+
+void addEdge(int src, int dest) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->vertex = dest;
+    newNode->link = graph[src];
+    graph[src] = newNode;
+}
+
+int main() {
+    int vertices = 4;
+    
+    addEdge(1, 2);
+    addEdge(2, 3);
+    addEdge(1, 4);
+
+    printf("DFS Traversal with Discovery & Finishing Times:\n");
+    DFS(1);
+    
+    return 0;
+}
