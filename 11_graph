@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_VERTICES 50
+
+typedef struct node {
+    int vertex;
+    struct node *link;
+} Node;
+
+Node* graph[MAX_VERTICES];  // Adjacency list representation
+int n = 0;  // Number of vertices
+
+// Function to create a new node
+Node* createNode(int v) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->vertex = v;
+    newNode->link = NULL;
+    return newNode;
+}
+
+// Function to convert adjacency matrix to adjacency list
+void convertMatrixToList(int adjMatrix[MAX_VERTICES][MAX_VERTICES], int vertices) {
+    n = vertices;
+    for (int i = 0; i < n; i++) {
+        graph[i] = NULL;  // Initialize adjacency list
+
+        for (int j = 0; j < n; j++) {
+            if (adjMatrix[i][j] == 1) {  // There is an edge from i to j
+                Node* newNode = createNode(j);
+                newNode->link = graph[i];  // Insert at the beginning
+                graph[i] = newNode;
+            }
+        }
+    }
+}
+
+// Function to print adjacency list
+void printAdjacencyList() {
+    for (int i = 0; i < n; i++) {
+        printf("%d → ", i);
+        Node* temp = graph[i];
+        while (temp) {
+            printf("%d → ", temp->vertex);
+            temp = temp->link;
+        }
+        printf("NULL\n");
+    }
+}
+
+// Main function
+int main() {
+    int adjMatrix[MAX_VERTICES][MAX_VERTICES] = {
+        {0, 1, 1},
+        {0, 0, 1},
+        {1, 0, 0}
+    };
+    
+    int vertices = 3;  // Number of vertices
+
+    convertMatrixToList(adjMatrix, vertices);
+    
+    printf("Adjacency List Representation:\n");
+    printAdjacencyList();
+
+    return 0;
+}
